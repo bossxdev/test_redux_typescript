@@ -1,40 +1,22 @@
-import { createStore, applyMiddleware } from "redux";
-import { createWrapper } from "next-redux-wrapper";
-import thunkMiddleware from "redux-thunk";
-import { rootReducer } from "./reducers";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { persistReducer, persistStore } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import { configureStore } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import logger from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
 
-const bindMiddleware = (middleware) => {
-  if (process.env.NODE_ENV !== "production") {
-    return composeWithDevTools(applyMiddleware(...middleware));
-  }
-  return applyMiddleware(...middleware);
-};
+import rootReducer from './reducers';
 
-const makeStore: any = ({ isServer }) => {
-  if (isServer) {
-    return createStore(rootReducer, bindMiddleware([thunkMiddleware]));
-  } else {
-    const persistConfig = {
-      key: "app",
-      whitelist: [],
-      storage,
-    };
+const middlewares = [logger, thunkMiddleware];
 
-    const persistedReducer = persistReducer(persistConfig, rootReducer);
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: middlewares,
+});
 
-    const store: any = createStore(
-      persistedReducer,
-      bindMiddleware([thunkMiddleware])
-    );
+// export type AppThunk = ThunkAction<void, RootState, unknown, Action>;
+// export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-    store.__persistor = persistStore(store);
+export type RootState = ReturnType<typeof store.getState>;
 
-    return store;
-  }
-};
-
-// Export the wrapper & wrap the pages/_app.js with this wrapper only
-export const wrapper = createWrapper(makeStore);
+export default store;

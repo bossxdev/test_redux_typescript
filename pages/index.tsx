@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
 import { useDispatch, useSelector } from "react-redux";
 import { setA } from "../store/reducers/menuReducer";
-import { RootState } from "../store/reducers";
+import type { RootState } from "../store";
+import Test from "../components/test";
 
 const Home: NextPage = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const Home: NextPage = () => {
         defaultValue={A}
         onChange={(e) => dispatch(setA(e.target.value))}
       />
+        <Test/>
     </>
   );
 };

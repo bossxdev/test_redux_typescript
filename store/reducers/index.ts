@@ -5,4 +5,4 @@ export const rootReducer = combineReducers({
   menuReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+export default rootReducer
