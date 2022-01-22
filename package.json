@@ -9,8 +9,15 @@
   },
   "dependencies": {
     "next": "12.0.8",
+    "next-redux-wrapper": "^7.0.5",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-redux": "7.2.3",
+    "redux": "4.1.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-persist": "6.0.0",
+    "redux-thunk": "2.3.0",
+    "prettier": "^2.3.1"
   },
   "devDependencies": {
     "@types/node": "17.0.10",

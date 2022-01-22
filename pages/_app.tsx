@@ -1,8 +1,19 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import { useStore } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { wrapper } from "../store";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  const store: any = useStore();
+
+  return (
+    <>
+      <PersistGate persistor={store.__persistor} loading={null}>
+        <Component {...pageProps} />
+      </PersistGate>
+    </>
+  );
 }
 
-export default MyApp
+export default wrapper.withRedux(MyApp);
